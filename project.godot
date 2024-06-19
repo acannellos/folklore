@@ -18,14 +18,14 @@ config/icon="res://icon.svg"
 [autoload]
 
 Global="*res://scripts/global/global.gd"
-Event="*res://scripts/global/event.gd"
+Events="*res://scripts/global/events.gd"
 Audio="*res://scripts/global/audio.gd"
 
 [display]
 
 window/size/viewport_width=800
 window/size/viewport_height=600
-window/size/resizable=false
+window/stretch/mode="viewport"
 
 [file_customization]
 

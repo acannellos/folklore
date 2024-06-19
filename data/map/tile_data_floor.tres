@@ -9,9 +9,8 @@ region = Rect2(991, 65, 25, 24)
 
 [resource]
 script = ExtResource("1_bnf4m")
-id = "floor"
 texture = SubResource("AtlasTexture_d45vn")
 color_lit = Color(1, 1, 1, 1)
-color_dark = Color(0.168627, 0.168627, 0.168627, 1)
+color_dark = Color(0.529412, 0.529412, 0.811765, 1)
 is_walkable = true
 is_transparent = true

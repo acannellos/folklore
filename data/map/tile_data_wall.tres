@@ -9,9 +9,8 @@ region = Rect2(753, 437, 25, 24)
 
 [resource]
 script = ExtResource("1_e7ijp")
-id = "wall"
 texture = SubResource("AtlasTexture_pxn3p")
-color_lit = Color(1, 1, 1, 1)
-color_dark = Color(1, 1, 1, 1)
+color_lit = Color(1, 0.796078, 0.65098, 1)
+color_dark = Color(0.517647, 0.482353, 0.611765, 1)
 is_walkable = false
 is_transparent = false

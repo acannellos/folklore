@@ -8,7 +8,8 @@ atlas = ExtResource("2_vfy8s")
 region = Rect2(1229, 3, 25, 24)
 
 [resource]
-resource_local_to_scene = true
 script = ExtResource("1_uhmer")
+name = "Druid"
 texture = SubResource("AtlasTexture_ylhsw")
 color = Color(1, 1, 1, 1)
+is_blocking_movement = true
