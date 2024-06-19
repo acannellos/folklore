@@ -91,7 +91,7 @@ func _place_entities(dungeon: MapData, room: Rect2i) -> void:
 			dungeon.entities.append(new_entity)
 
 func generate_forest(player: Entity) -> MapData:
-	forest = MapData.new(map_width, map_height)
+	forest = MapData.new(map_width, map_height, player)
 	
 	forest.entities.append(player)
 	
@@ -126,4 +126,5 @@ func generate_forest(player: Entity) -> MapData:
 		
 		rooms.append(new_room)
 	
+	forest.setup_pathfinding()
 	return forest
