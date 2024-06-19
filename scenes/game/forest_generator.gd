@@ -1,0 +1,104 @@
+class_name ForestGenerator
+extends Node
+
+@export_category("Map Dimensions")
+@export var map_width: int = 80
+@export var map_height: int = 45
+
+@export_category("Rooms RNG")
+@export var max_rooms: int = 30
+@export var room_max_size: int = 10
+@export var room_min_size: int = 6
+
+var _rng := RandomNumberGenerator.new()
+
+func _ready() -> void:
+	_rng.randomize()
+
+func _create_wall(forest: MapData, x: int, y: int) -> void:
+		var tile_position = Vector2i(x, y)
+		var tile: Tile = forest.get_tile(tile_position)
+		tile.set_tile_type(forest.tile_types.wall)
+
+func _create_floor(forest: MapData, x: int, y: int) -> void:
+		var tile_position = Vector2i(x, y)
+		var tile: Tile = forest.get_tile(tile_position)
+		tile.set_tile_type(forest.tile_types.floor)
+
+func _create_room(forest: MapData, room: Rect2i) -> void:
+	for y in range(room.position.y, room.end.y + 1):
+		for x in range(room.position.x, room.end.x + 1):
+			_create_wall(forest, x, y)
+	
+	var inner: Rect2i = room.grow(-1)
+	for y in range(inner.position.y, inner.end.y + 1):
+		for x in range(inner.position.x, inner.end.x + 1):
+			_create_floor(forest, x, y)
+
+func _tunnel_horizontal(forest: MapData, y: int, x_start: int, x_end: int) -> void:
+	var x_min: int = mini(x_start, x_end)
+	var x_max: int = maxi(x_start, x_end)
+	for x in range(x_min, x_max + 1):
+		if not forest.get_tile(Vector2i(x, y)).is_walkable():
+			_create_floor(forest, x, y)
+
+func _tunnel_vertical(forest: MapData, x: int, y_start: int, y_end: int) -> void:
+	var y_min: int = mini(y_start, y_end)
+	var y_max: int = maxi(y_start, y_end)
+	for y in range(y_min, y_max + 1):
+		if not forest.get_tile(Vector2i(x, y)).is_walkable():
+			_create_floor(forest, x, y)
+
+func _tunnel_between(forest: MapData, start: Vector2i, end: Vector2i) -> void:
+	if _rng.randf() < 0.5:
+		_tunnel_horizontal(forest, start.y, start.x, end.x)
+		_tunnel_vertical(forest, end.x, start.y, end.y)
+	else:
+		_tunnel_vertical(forest, start.x, start.y, end.y)
+		_tunnel_horizontal(forest, end.y, start.x, end.x)
+
+#func generate_forest() -> MapData:
+	#var forest := MapData.new(map_width, map_height)
+#
+	#var room_1 := Rect2i(20, 15, 10, 15)
+	#var room_2 := Rect2i(35, 15, 10, 15)
+#
+	#_create_room(forest, room_1)
+	#_create_room(forest, room_2)
+	#
+	#_tunnel_between(forest, room_1.get_center(), room_2.get_center())
+#
+	#return forest
+
+func generate_forest(player: Entity) -> MapData:
+	var forest := MapData.new(map_width, map_height)
+	
+	var rooms: Array[Rect2i] = []
+	
+	for _try_room in max_rooms:
+		var room_width: int = _rng.randi_range(room_min_size, room_max_size)
+		var room_height: int = _rng.randi_range(room_min_size, room_max_size)
+		
+		var x: int = _rng.randi_range(0, forest.width - room_width - 1)
+		var y: int = _rng.randi_range(0, forest.height - room_height - 1)
+		
+		var new_room := Rect2i(x, y, room_width, room_height)
+		
+		var has_intersections := false
+		for room in rooms:
+			if room.intersects(new_room.grow(-1)):
+				has_intersections = true
+				break
+		if has_intersections:
+			continue
+		
+		_create_room(forest, new_room)
+		
+		if rooms.is_empty():
+			player.grid_position = new_room.get_center()
+		else:
+			_tunnel_between(forest, rooms.back().get_center(), new_room.get_center())
+		
+		rooms.append(new_room)
+	
+	return forest
