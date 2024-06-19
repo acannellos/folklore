@@ -21,14 +21,17 @@ func _physics_process(_delta: float) -> void:
 	if action:
 		var previous_player_position: Vector2i = player.grid_position
 		action.perform()
-		#_handle_enemy_turns()
+		_handle_enemy_turns()
 		map.update_fov(player.grid_position)
 
 func _handle_enemy_turns() -> void:
-	for entity in get_map_data().entities:
-		if entity == player:
-			continue
-		print("The %s wonders when it will get to take a real turn." % entity.get_entity_name())
+	for entity in get_map_data().get_actors():
+		if entity.is_alive() and entity != player:
+			entity.ai_component.perform()
+	#for entity in get_map_data().entities:
+		#if entity == player:
+			#continue
+		#print("The %s wonders when it will get to take a real turn." % entity.get_entity_name())
 
 func get_map_data() -> MapData:
 	return map.map_data

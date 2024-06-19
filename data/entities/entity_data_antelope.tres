@@ -1,7 +1,14 @@
-[gd_resource type="Resource" script_class="EntityData" load_steps=4 format=3 uid="uid://om0ft4avukss"]
+[gd_resource type="Resource" script_class="EntityData" load_steps=6 format=3 uid="uid://om0ft4avukss"]
 
+[ext_resource type="Script" path="res://scripts/entities/actors/components/fighter_data.gd" id="1_7jwte"]
 [ext_resource type="Script" path="res://scripts/entities/entity_data.gd" id="1_cpwjs"]
 [ext_resource type="Texture2D" uid="uid://cmm7oqaf0okjy" path="res://assets/textures/ascii_transparent.png" id="2_6wpe7"]
+
+[sub_resource type="Resource" id="Resource_6k0kw"]
+script = ExtResource("1_7jwte")
+max_hp = 10
+power = 3
+defense = 0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dflg8"]
 atlas = ExtResource("2_6wpe7")
@@ -13,3 +20,5 @@ name = "Antelope"
 texture = SubResource("AtlasTexture_dflg8")
 color = Color(1, 0.482353, 0, 1)
 is_blocking_movement = true
+fighter_data = SubResource("Resource_6k0kw")
+ai_type = "HOSTILE"
