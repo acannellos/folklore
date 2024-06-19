@@ -16,14 +16,38 @@ func update_fov(map_data: MapData, origin: Vector2i, radius: int) -> void:
 	start_tile.is_in_view = true
 	_fov = [start_tile]
 	for i in 8:
-		_cast_light(map_data, origin.x, origin.y, radius, 1, 1.0, 0.0, multipliers[0][i], multipliers[1][i], multipliers[2][i], multipliers[3][i])
+		_cast_light(
+			map_data,
+			origin.x,
+			origin.y,
+			radius,
+			1,
+			1.0,
+			0.0,
+			multipliers[0][i],
+			multipliers[1][i],
+			multipliers[2][i],
+			multipliers[3][i]
+		)
 
 func _clear_fov() -> void:
 	for tile in _fov:
 		tile.is_in_view = false
 	_fov = []
 
-func _cast_light(map_data: MapData, x: int, y: int, radius: int, row: int, start_slope: float, end_slope: float, xx: int, xy: int, yx: int, yy: int) -> void:
+func _cast_light(
+	map_data: MapData,
+	x: int,
+	y: int,
+	radius: int,
+	row: int,
+	start_slope: float,
+	end_slope: float,
+	xx: int,
+	xy: int,
+	yx: int,
+	yy: int
+) -> void:
 	if start_slope < end_slope:
 		return
 	var next_start_slope: float = start_slope

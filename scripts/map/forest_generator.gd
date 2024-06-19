@@ -10,6 +10,14 @@ extends Node
 @export var room_max_size: int = 10
 @export var room_min_size: int = 6
 
+@export_category("Mob RNG")
+@export var max_mob_per_room = 2
+
+const entity_types = {
+	"wolf": preload("res://data/entities/entity_data_wolf.tres"),
+	"antelope": preload("res://data/entities/entity_data_antelope.tres"),
+}
+
 var _rng := RandomNumberGenerator.new()
 
 func _ready() -> void:
@@ -57,21 +65,33 @@ func _tunnel_between(forest: MapData, start: Vector2i, end: Vector2i) -> void:
 		_tunnel_vertical(forest, start.x, start.y, end.y)
 		_tunnel_horizontal(forest, end.y, start.x, end.x)
 
-#func generate_forest() -> MapData:
-	#var forest := MapData.new(map_width, map_height)
-#
-	#var room_1 := Rect2i(20, 15, 10, 15)
-	#var room_2 := Rect2i(35, 15, 10, 15)
-#
-	#_create_room(forest, room_1)
-	#_create_room(forest, room_2)
-	#
-	#_tunnel_between(forest, room_1.get_center(), room_2.get_center())
-#
-	#return forest
+func _place_entities(dungeon: MapData, room: Rect2i) -> void:
+	#var number_of_mobs: int = _rng.randi_range(0, max_mob_per_room)
+	var number_of_mobs: int = max_mob_per_room
+	
+	for _i in number_of_mobs:
+		var x: int = _rng.randi_range(room.position.x + 1, room.end.x - 1)
+		var y: int = _rng.randi_range(room.position.y + 1, room.end.y - 1)
+		var new_entity_position := Vector2i(x, y)
+		
+		var can_place = true
+		for entity in dungeon.entities:
+			if entity.grid_position == new_entity_position:
+				can_place = false
+				break
+		
+		if can_place:
+			var new_entity: Entity
+			if _rng.randf() < 0.5:
+				new_entity = Entity.new(new_entity_position, entity_types.wolf)
+			else:
+				new_entity = Entity.new(new_entity_position, entity_types.antelope)
+			dungeon.entities.append(new_entity)
 
 func generate_forest(player: Entity) -> MapData:
 	var forest := MapData.new(map_width, map_height)
+	
+	forest.entities.append(player)
 	
 	var rooms: Array[Rect2i] = []
 	
@@ -98,6 +118,8 @@ func generate_forest(player: Entity) -> MapData:
 			player.grid_position = new_room.get_center()
 		else:
 			_tunnel_between(forest, rooms.back().get_center(), new_room.get_center())
+		
+		_place_entities(forest, new_room)
 		
 		rooms.append(new_room)
 	
