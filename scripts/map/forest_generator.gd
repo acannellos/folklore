@@ -13,6 +13,8 @@ extends Node
 @export_category("Mob RNG")
 @export var max_mob_per_room = 2
 
+var forest: MapData
+
 const entity_types = {
 	"wolf": preload("res://data/entities/entity_data_wolf.tres"),
 	"antelope": preload("res://data/entities/entity_data_antelope.tres"),
@@ -83,13 +85,13 @@ func _place_entities(dungeon: MapData, room: Rect2i) -> void:
 		if can_place:
 			var new_entity: Entity
 			if _rng.randf() < 0.5:
-				new_entity = Entity.new(new_entity_position, entity_types.wolf)
+				new_entity = Entity.new(forest, new_entity_position, entity_types.wolf)
 			else:
-				new_entity = Entity.new(new_entity_position, entity_types.antelope)
+				new_entity = Entity.new(forest, new_entity_position, entity_types.antelope)
 			dungeon.entities.append(new_entity)
 
 func generate_forest(player: Entity) -> MapData:
-	var forest := MapData.new(map_width, map_height)
+	forest = MapData.new(map_width, map_height)
 	
 	forest.entities.append(player)
 	
@@ -116,6 +118,7 @@ func generate_forest(player: Entity) -> MapData:
 		
 		if rooms.is_empty():
 			player.grid_position = new_room.get_center()
+			player.map_data = forest
 		else:
 			_tunnel_between(forest, rooms.back().get_center(), new_room.get_center())
 		

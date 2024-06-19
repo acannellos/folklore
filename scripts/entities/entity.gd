@@ -2,10 +2,12 @@ class_name Entity
 extends Sprite2D
 
 var _entity_data = EntityData
+var map_data: MapData
 
-func _init(start_position: Vector2i, entity_data: EntityData) -> void:
+func _init(map_data: MapData, start_position: Vector2i, entity_data: EntityData) -> void:
 	centered = false
 	grid_position = start_position
+	self.map_data = map_data
 	set_entity_type(entity_data)
 
 func set_entity_type(entity_data: EntityData) -> void:

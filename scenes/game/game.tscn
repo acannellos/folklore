@@ -1,18 +1,18 @@
 [gd_scene load_steps=6 format=3 uid="uid://b06qolei86p7r"]
 
 [ext_resource type="Script" path="res://scripts/game/game.gd" id="1_pnjno"]
-[ext_resource type="Script" path="res://scripts/game/event_handler.gd" id="3_53pig"]
+[ext_resource type="Script" path="res://scripts/game/input_handler.gd" id="3_53pig"]
 [ext_resource type="Script" path="res://scripts/map/map.gd" id="3_lim6u"]
 [ext_resource type="Script" path="res://scripts/map/forest_generator.gd" id="4_md5ah"]
 [ext_resource type="Script" path="res://scripts/map/field_of_view.gd" id="5_sfheq"]
 
-[node name="game" type="Node2D" node_paths=PackedStringArray("event_handler", "map", "camera")]
+[node name="game" type="Node2D" node_paths=PackedStringArray("input_handler", "map", "camera")]
 script = ExtResource("1_pnjno")
-event_handler = NodePath("event_handler")
+input_handler = NodePath("input_handler")
 map = NodePath("map")
 camera = NodePath("camera")
 
-[node name="event_handler" type="Node" parent="."]
+[node name="input_handler" type="Node" parent="."]
 script = ExtResource("3_53pig")
 
 [node name="map" type="Node2D" parent="." node_paths=PackedStringArray("tiles", "entities", "forest_generator", "fov")]
