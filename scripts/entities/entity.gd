@@ -2,7 +2,14 @@ class_name Entity
 extends Sprite2D
 
 var _entity_data = EntityData
+var entity_name: String
+var blocks_movement: bool
 var map_data: MapData
+
+var type: Enums.EntityType:
+	set(value):
+		type = value
+		z_index = type
 
 var fighter_component: FighterComponent
 var ai_component: AIComponent
@@ -15,11 +22,17 @@ func _init(map_data: MapData, start_position: Vector2i, entity_data: EntityData)
 
 func set_entity_type(entity_data: EntityData) -> void:
 	_entity_data = entity_data
+	type = _entity_data.type
+	blocks_movement = _entity_data.is_blocking_movement
+	entity_name = _entity_data.name
 	texture = entity_data.texture
 	modulate = entity_data.color
 	
 	match entity_data.ai_type:
-		"HOSTILE":
+		Enums.AIType.PLAYER:
+			ai_component = AIComponent.new()
+			add_child(ai_component)
+		Enums.AIType.HOSTILE:
 			ai_component = HostileAIComponent.new()
 			add_child(ai_component)
 	
@@ -28,10 +41,10 @@ func set_entity_type(entity_data: EntityData) -> void:
 		add_child(fighter_component)
 
 func is_blocking_movement() -> bool:
-	return _entity_data.is_blocking_movement
+	return blocks_movement
 
 func get_entity_name() -> String:
-	return _entity_data.name
+	return entity_name
 
 var grid_position: Vector2i:
 	set(value):
