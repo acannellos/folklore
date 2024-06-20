@@ -15,6 +15,8 @@ func _ready() -> void:
 	player.add_child(camera)
 	map.generate(player)
 	map.update_fov(player.grid_position)
+	
+	Events.player_died.connect(game_over)
 
 func _physics_process(_delta: float) -> void:
 	var action: Action = input_handler.get_action(player)
@@ -28,10 +30,9 @@ func _handle_enemy_turns() -> void:
 	for entity in get_map_data().get_actors():
 		if entity.is_alive() and entity != player:
 			entity.ai_component.perform()
-	#for entity in get_map_data().entities:
-		#if entity == player:
-			#continue
-		#print("The %s wonders when it will get to take a real turn." % entity.get_entity_name())
 
 func get_map_data() -> MapData:
 	return map.map_data
+
+func game_over() -> void:
+	print("game over, dude")

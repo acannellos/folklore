@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="EntityData" load_steps=6 format=3 uid="uid://chy47tgaap7tq"]
+[gd_resource type="Resource" script_class="EntityData" load_steps=7 format=3 uid="uid://chy47tgaap7tq"]
 
+[ext_resource type="Texture2D" uid="uid://baj4q2yhlehqu" path="res://data/entities/grave.tres" id="1_ij0uq"]
 [ext_resource type="Script" path="res://scripts/entities/actors/components/fighter_data.gd" id="1_pxc3i"]
 [ext_resource type="Script" path="res://scripts/entities/entity_data.gd" id="1_uhmer"]
 [ext_resource type="Texture2D" uid="uid://cmm7oqaf0okjy" path="res://assets/textures/ascii_transparent.png" id="2_vfy8s"]
@@ -9,6 +10,8 @@ script = ExtResource("1_pxc3i")
 max_hp = 30
 power = 5
 defense = 2
+death_texture = ExtResource("1_ij0uq")
+death_color = Color(0.545098, 0, 0, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ylhsw"]
 atlas = ExtResource("2_vfy8s")
@@ -21,4 +24,4 @@ texture = SubResource("AtlasTexture_ylhsw")
 color = Color(1, 1, 1, 1)
 is_blocking_movement = true
 fighter_data = SubResource("Resource_ujnbq")
-ai_type = "HOSTILE"
+ai_type = 1
