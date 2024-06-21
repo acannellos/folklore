@@ -1,0 +1,6 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://cwb7a6f1btovb"]
+
+[ext_resource type="FontFile" uid="uid://dxqdgv4vacswi" path="res://assets/fonts/Mx437_IBM_BIOS.ttf" id="1_ptr8k"]
+
+[resource]
+font = ExtResource("1_ptr8k")

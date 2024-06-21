@@ -58,3 +58,6 @@ func move(move_offset: Vector2i) -> void:
 
 func is_alive() -> bool:
 	return ai_component != null
+
+func is_player() -> bool:
+	return _entity_data.ai_type == Enums.AIType.PLAYER
