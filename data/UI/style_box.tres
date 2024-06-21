@@ -1,0 +1,11 @@
+[gd_resource type="StyleBoxTexture" load_steps=3 format=3 uid="uid://r6r5336xh7ae"]
+
+[ext_resource type="Texture2D" uid="uid://cmm7oqaf0okjy" path="res://assets/textures/ascii_transparent.png" id="1_5uhu0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3g18i"]
+atlas = ExtResource("1_5uhu0")
+region = Rect2(1297, 468, 25, 24)
+
+[resource]
+texture = SubResource("AtlasTexture_3g18i")
+modulate_color = Color(0.12549, 0.231373, 0.184314, 0.784314)
