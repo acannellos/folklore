@@ -1,38 +1,104 @@
-[gd_scene load_steps=6 format=3 uid="uid://b06qolei86p7r"]
+[gd_scene load_steps=8 format=3 uid="uid://b06qolei86p7r"]
 
+[ext_resource type="Script" path="res://scripts/game/root.gd" id="1_5vr4e"]
 [ext_resource type="Script" path="res://scripts/game/game.gd" id="1_pnjno"]
 [ext_resource type="Script" path="res://scripts/game/input_handler.gd" id="3_53pig"]
 [ext_resource type="Script" path="res://scripts/map/map.gd" id="3_lim6u"]
 [ext_resource type="Script" path="res://scripts/map/forest_generator.gd" id="4_md5ah"]
 [ext_resource type="Script" path="res://scripts/map/field_of_view.gd" id="5_sfheq"]
+[ext_resource type="StyleBox" uid="uid://r6r5336xh7ae" path="res://data/UI/style_box.tres" id="6_unt8r"]
 
-[node name="game" type="Node2D" node_paths=PackedStringArray("input_handler", "map", "camera")]
+[node name="root" type="Control" node_paths=PackedStringArray("info")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5vr4e")
+info = NodePath("hbox/info")
+
+[node name="hbox" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="view" type="SubViewportContainer" parent="hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+stretch = true
+
+[node name="subview" type="SubViewport" parent="hbox/view"]
+disable_3d = true
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(533, 600)
+render_target_update_mode = 4
+
+[node name="game" type="Node2D" parent="hbox/view/subview" node_paths=PackedStringArray("input_handler", "map", "camera")]
 script = ExtResource("1_pnjno")
 input_handler = NodePath("input_handler")
 map = NodePath("map")
 camera = NodePath("camera")
 
-[node name="input_handler" type="Node" parent="."]
+[node name="input_handler" type="Node" parent="hbox/view/subview/game"]
 script = ExtResource("3_53pig")
 
-[node name="map" type="Node2D" parent="." node_paths=PackedStringArray("tiles", "entities", "forest_generator", "fov")]
+[node name="map" type="Node2D" parent="hbox/view/subview/game" node_paths=PackedStringArray("tiles", "entities", "forest_generator", "fov")]
 script = ExtResource("3_lim6u")
 tiles = NodePath("tiles")
 entities = NodePath("entities")
 forest_generator = NodePath("forest")
 fov = NodePath("fov")
 
-[node name="forest" type="Node" parent="map"]
+[node name="forest" type="Node" parent="hbox/view/subview/game/map"]
 script = ExtResource("4_md5ah")
 max_rooms = 4
 
-[node name="fov" type="Node" parent="map"]
+[node name="fov" type="Node" parent="hbox/view/subview/game/map"]
 script = ExtResource("5_sfheq")
 
-[node name="tiles" type="Node2D" parent="map"]
+[node name="tiles" type="Node2D" parent="hbox/view/subview/game/map"]
 
-[node name="entities" type="Node2D" parent="map"]
+[node name="entities" type="Node2D" parent="hbox/view/subview/game/map"]
 
-[node name="camera" type="Camera2D" parent="."]
+[node name="camera" type="Camera2D" parent="hbox/view/subview/game"]
 position_smoothing_enabled = true
 position_smoothing_speed = 1.0
+
+[node name="info" type="VBoxContainer" parent="hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="stats" type="PanelContainer" parent="hbox/info"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("6_unt8r")
+
+[node name="stats_vbox" type="VBoxContainer" parent="hbox/info/stats"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="hbox/info/stats/stats_vbox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="hbox/info/stats/stats_vbox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Control2" type="Control" parent="hbox/info/stats/stats_vbox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="log" type="PanelContainer" parent="hbox/info"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+theme_override_styles/panel = ExtResource("6_unt8r")

@@ -23,5 +23,6 @@ name = "Wolf"
 texture = SubResource("AtlasTexture_5xlkv")
 color = Color(0.529412, 0.529412, 0.529412, 1)
 is_blocking_movement = true
+type = 2
 fighter_data = SubResource("Resource_efdjq")
 ai_type = 2
