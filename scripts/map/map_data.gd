@@ -3,11 +3,20 @@ extends RefCounted
 
 const tile_types = {
 	"floor": preload("res://data/map/tile_data_floor.tres"),
+	"grass": preload("res://data/map/tile_data_floor_grass.tres"),
+	"dot": preload("res://data/map/tile_data_floor_dot.tres"),
+	"other": preload("res://data/map/tile_data_floor_other.tres"),
+	
 	"wall": preload("res://data/map/tile_data_wall.tres"),
+	
+	"elm": preload("res://data/map/tile_data_tree_elm.tres"),
+	"fir": preload("res://data/map/tile_data_tree_fir.tres"),
 	"oak": preload("res://data/map/tile_data_tree_oak.tres"),
 }
 
 const entity_pathfinding_weight = 10.0
+
+var _rng := RandomNumberGenerator.new()
 
 var width: int
 var height: int
@@ -28,7 +37,19 @@ func _setup_tiles() -> void:
 	for y in height:
 		for x in width:
 			var tile_position := Vector2i(x, y)
-			var tile := Tile.new(tile_position, tile_types.floor)
+			#var tile := Tile.new(tile_position, tile_types.floor)
+			#var tile := Tile.new(tile_position, tile_types.oak)
+			
+			var roll: int = _rng.randi_range(0, 2)
+			var tile: Tile
+			match roll:
+				0:
+					tile = Tile.new(tile_position, tile_types.elm)
+				1:
+					tile = Tile.new(tile_position, tile_types.fir)
+				2:
+					tile = Tile.new(tile_position, tile_types.oak)
+			
 			tiles.append(tile)
 
 func get_tile(grid_position: Vector2i) -> Tile:
