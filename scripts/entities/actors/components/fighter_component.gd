@@ -22,6 +22,23 @@ func _init(data: FighterData) -> void:
 	death_texture = data.death_texture
 	death_color = data.death_color
 
+func heal(amount: int) -> int:
+	if hp == max_hp:
+		return 0
+	
+	var new_hp_value: int = hp + amount
+	
+	if new_hp_value > max_hp:
+		new_hp_value = max_hp
+		
+	var amount_recovered: int = new_hp_value - hp
+	hp = new_hp_value
+	return amount_recovered
+
+
+func take_damage(amount: int) -> void:
+	hp -= amount
+
 func die() -> void:
 	var death_message: String
 	var death_message_color: Color

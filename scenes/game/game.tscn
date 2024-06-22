@@ -1,6 +1,7 @@
-[gd_scene load_steps=16 format=3 uid="uid://b06qolei86p7r"]
+[gd_scene load_steps=18 format=3 uid="uid://b06qolei86p7r"]
 
 [ext_resource type="Script" path="res://scripts/game/root.gd" id="1_5vr4e"]
+[ext_resource type="Shader" path="res://assets/shaders/crt.gdshader" id="1_jwys7"]
 [ext_resource type="Script" path="res://scripts/game/game.gd" id="1_pnjno"]
 [ext_resource type="Script" path="res://scripts/game/input_handler.gd" id="3_53pig"]
 [ext_resource type="Script" path="res://scripts/map/map.gd" id="3_lim6u"]
@@ -26,7 +27,24 @@ border_width_bottom = 1
 font = ExtResource("8_25gen")
 font_size = 24
 
-[node name="root" type="Control"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jv0js"]
+shader = ExtResource("1_jwys7")
+shader_parameter/resolution = Vector2(640, 360)
+shader_parameter/scan_line_amount = 1.0
+shader_parameter/warp_amount = 0.3
+shader_parameter/noise_amount = 0.05
+shader_parameter/interference_amount = 0.2
+shader_parameter/grille_amount = 0.3
+shader_parameter/grille_size = 1.0
+shader_parameter/vignette_amount = 0.6
+shader_parameter/vignette_intensity = 0.4
+shader_parameter/aberation_amount = 0.5
+shader_parameter/roll_line_amount = 0.0
+shader_parameter/roll_speed = 1.0
+shader_parameter/scan_line_strength = -8.0
+shader_parameter/pixel_strength = -2.0
+
+[node name="root" type="Control" node_paths=PackedStringArray("info", "stats", "log")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,6 +52,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_5vr4e")
+info = NodePath("hbox/info")
+stats = NodePath("hbox/info/stats/stats_vbox")
+log = NodePath("hbox/info/log/log_margin")
 
 [node name="hbox" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -89,7 +110,6 @@ script = ExtResource("5_sfheq")
 script = ExtResource("7_1bwho")
 
 [node name="camera" type="Camera2D" parent="hbox/view/subview/game"]
-position_smoothing_enabled = true
 position_smoothing_speed = 1.0
 
 [node name="info" type="VBoxContainer" parent="hbox"]
@@ -167,6 +187,16 @@ message_list = NodePath("message_list")
 [node name="message_list" type="VBoxContainer" parent="hbox/info/log/log_margin/message_log"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="post" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_jv0js")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
 [connection signal="player_created" from="hbox/view/subview/game" to="hbox/info/stats/stats_vbox/hp_margin" method="initialize"]
 [connection signal="entities_focussed" from="hbox/view/subview/game/map/mouseover" to="hbox/info/stats/stats_vbox/mouseover_label" method="set_text"]
