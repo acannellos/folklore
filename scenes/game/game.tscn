@@ -94,10 +94,10 @@ tiles = NodePath("tiles")
 entities = NodePath("entities")
 forest_generator = NodePath("forest")
 fov = NodePath("fov")
+fov_radius = 24
 
 [node name="forest" type="Node" parent="hbox/view/subview/game/map"]
 script = ExtResource("4_md5ah")
-max_rooms = 4
 
 [node name="fov" type="Node" parent="hbox/view/subview/game/map"]
 script = ExtResource("5_sfheq")
