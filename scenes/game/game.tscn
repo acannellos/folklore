@@ -1,14 +1,50 @@
-[gd_scene load_steps=8 format=3 uid="uid://b06qolei86p7r"]
+[gd_scene load_steps=18 format=3 uid="uid://b06qolei86p7r"]
 
 [ext_resource type="Script" path="res://scripts/game/root.gd" id="1_5vr4e"]
+[ext_resource type="Shader" path="res://assets/shaders/crt.gdshader" id="1_jwys7"]
 [ext_resource type="Script" path="res://scripts/game/game.gd" id="1_pnjno"]
 [ext_resource type="Script" path="res://scripts/game/input_handler.gd" id="3_53pig"]
 [ext_resource type="Script" path="res://scripts/map/map.gd" id="3_lim6u"]
 [ext_resource type="Script" path="res://scripts/map/forest_generator.gd" id="4_md5ah"]
 [ext_resource type="Script" path="res://scripts/map/field_of_view.gd" id="5_sfheq"]
-[ext_resource type="StyleBox" uid="uid://r6r5336xh7ae" path="res://data/UI/style_box.tres" id="6_unt8r"]
+[ext_resource type="StyleBox" uid="uid://r6r5336xh7ae" path="res://data/UI/style_box_panel.tres" id="6_unt8r"]
+[ext_resource type="Script" path="res://scripts/UI/mouseover.gd" id="7_1bwho"]
+[ext_resource type="Script" path="res://scripts/UI/hp_margin.gd" id="8_6tuln"]
+[ext_resource type="FontFile" uid="uid://6yvsm2j7a73b" path="res://assets/fonts/Px437_IBM_BIOS.ttf" id="8_25gen"]
+[ext_resource type="Script" path="res://scripts/UI/message_log.gd" id="10_y6ch7"]
+[ext_resource type="LabelSettings" uid="uid://cwb7a6f1btovb" path="res://data/UI/label_settings.tres" id="11_hmiy5"]
 
-[node name="root" type="Control" node_paths=PackedStringArray("info")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eqkyq"]
+bg_color = Color(0.6, 0.6, 0.6, 0.407843)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qhj1h"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_hdypj"]
+font = ExtResource("8_25gen")
+font_size = 24
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jv0js"]
+shader = ExtResource("1_jwys7")
+shader_parameter/resolution = Vector2(640, 360)
+shader_parameter/scan_line_amount = 1.0
+shader_parameter/warp_amount = 0.3
+shader_parameter/noise_amount = 0.05
+shader_parameter/interference_amount = 0.2
+shader_parameter/grille_amount = 0.3
+shader_parameter/grille_size = 1.0
+shader_parameter/vignette_amount = 0.6
+shader_parameter/vignette_intensity = 0.4
+shader_parameter/aberation_amount = 0.5
+shader_parameter/roll_line_amount = 0.0
+shader_parameter/roll_speed = 1.0
+shader_parameter/scan_line_strength = -8.0
+shader_parameter/pixel_strength = -2.0
+
+[node name="root" type="Control" node_paths=PackedStringArray("info", "stats", "log")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,6 +53,8 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_5vr4e")
 info = NodePath("hbox/info")
+stats = NodePath("hbox/info/stats/stats_vbox")
+log = NodePath("hbox/info/log/log_margin")
 
 [node name="hbox" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -38,7 +76,7 @@ stretch = true
 disable_3d = true
 handle_input_locally = false
 canvas_item_default_texture_filter = 0
-size = Vector2i(533, 600)
+size = Vector2i(1280, 1080)
 render_target_update_mode = 4
 
 [node name="game" type="Node2D" parent="hbox/view/subview" node_paths=PackedStringArray("input_handler", "map", "camera")]
@@ -68,8 +106,10 @@ script = ExtResource("5_sfheq")
 
 [node name="entities" type="Node2D" parent="hbox/view/subview/game/map"]
 
+[node name="mouseover" type="Node2D" parent="hbox/view/subview/game/map"]
+script = ExtResource("7_1bwho")
+
 [node name="camera" type="Camera2D" parent="hbox/view/subview/game"]
-position_smoothing_enabled = true
 position_smoothing_speed = 1.0
 
 [node name="info" type="VBoxContainer" parent="hbox"]
@@ -89,16 +129,74 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="hbox/info/stats/stats_vbox"]
+[node name="hp_margin" type="MarginContainer" parent="hbox/info/stats/stats_vbox" node_paths=PackedStringArray("hp_bar", "hp_label")]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 20
+script = ExtResource("8_6tuln")
+hp_bar = NodePath("hp_bar")
+hp_label = NodePath("hp_label")
+
+[node name="hp_bar" type="ProgressBar" parent="hbox/info/stats/stats_vbox/hp_margin"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_eqkyq")
+theme_override_styles/fill = SubResource("StyleBoxFlat_qhj1h")
+show_percentage = false
+
+[node name="hp_label" type="Label" parent="hbox/info/stats/stats_vbox/hp_margin"]
+layout_mode = 2
+text = "test"
+label_settings = SubResource("LabelSettings_hdypj")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Control2" type="Control" parent="hbox/info/stats/stats_vbox"]
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="mouseover_label" type="Label" parent="hbox/info/stats/stats_vbox"]
+layout_mode = 2
+text = "test"
+label_settings = ExtResource("11_hmiy5")
+horizontal_alignment = 1
 
 [node name="log" type="PanelContainer" parent="hbox/info"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
 theme_override_styles/panel = ExtResource("6_unt8r")
+
+[node name="log_margin" type="MarginContainer" parent="hbox/info/log"]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 10
+
+[node name="message_log" type="ScrollContainer" parent="hbox/info/log/log_margin" node_paths=PackedStringArray("message_list")]
+layout_mode = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+script = ExtResource("10_y6ch7")
+message_list = NodePath("message_list")
+
+[node name="message_list" type="VBoxContainer" parent="hbox/info/log/log_margin/message_log"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="post" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_jv0js")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[connection signal="player_created" from="hbox/view/subview/game" to="hbox/info/stats/stats_vbox/hp_margin" method="initialize"]
+[connection signal="entities_focussed" from="hbox/view/subview/game/map/mouseover" to="hbox/info/stats/stats_vbox/mouseover_label" method="set_text"]

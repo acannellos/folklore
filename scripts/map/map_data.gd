@@ -4,6 +4,7 @@ extends RefCounted
 const tile_types = {
 	"floor": preload("res://data/map/tile_data_floor.tres"),
 	"wall": preload("res://data/map/tile_data_wall.tres"),
+	"oak": preload("res://data/map/tile_data_tree_oak.tres"),
 }
 
 const entity_pathfinding_weight = 10.0
@@ -23,7 +24,7 @@ func _init(map_width: int, map_height: int, player: Entity) -> void:
 	_setup_tiles()
 
 func _setup_tiles() -> void:
-	tiles = []
+	tiles = []	
 	for y in height:
 		for x in width:
 			var tile_position := Vector2i(x, y)
