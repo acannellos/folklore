@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://b06qolei86p7r"]
+[gd_scene load_steps=19 format=3 uid="uid://b06qolei86p7r"]
 
 [ext_resource type="Script" path="res://scripts/game/root.gd" id="1_5vr4e"]
 [ext_resource type="Shader" path="res://assets/shaders/crt.gdshader" id="1_jwys7"]
@@ -13,6 +13,7 @@
 [ext_resource type="FontFile" uid="uid://6yvsm2j7a73b" path="res://assets/fonts/Px437_IBM_BIOS.ttf" id="8_25gen"]
 [ext_resource type="Script" path="res://scripts/UI/message_log.gd" id="10_y6ch7"]
 [ext_resource type="LabelSettings" uid="uid://cwb7a6f1btovb" path="res://data/UI/label_settings.tres" id="11_hmiy5"]
+[ext_resource type="AudioStream" uid="uid://dbo48dolivetw" path="res://assets/audio/winds_trim.wav" id="14_tqvwh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eqkyq"]
 bg_color = Color(0.6, 0.6, 0.6, 0.407843)
@@ -197,6 +198,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("14_tqvwh")
 
 [connection signal="player_created" from="hbox/view/subview/game" to="hbox/info/stats/stats_vbox/hp_margin" method="initialize"]
 [connection signal="entities_focussed" from="hbox/view/subview/game/map/mouseover" to="hbox/info/stats/stats_vbox/mouseover_label" method="set_text"]
