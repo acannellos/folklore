@@ -14,6 +14,9 @@ const tile_types = {
 	"elm": preload("res://data/map/tile_data_tree_elm.tres"),
 	"fir": preload("res://data/map/tile_data_tree_fir.tres"),
 	"oak": preload("res://data/map/tile_data_tree_oak.tres"),
+	
+	"pool": preload("res://data/map/tile_data_pool.tres"),
+	"pool_deep": preload("res://data/map/tile_data_pool_deep.tres"),
 }
 
 const entity_pathfinding_weight = 10.0

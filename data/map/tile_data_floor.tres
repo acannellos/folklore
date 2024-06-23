@@ -14,3 +14,4 @@ color_lit = Color(0.964706, 0.835294, 0.870588, 1)
 color_dark = Color(0.529412, 0.529412, 0.811765, 1)
 is_walkable = true
 is_transparent = true
+is_pool = false

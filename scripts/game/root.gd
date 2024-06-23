@@ -12,24 +12,24 @@ func _unhandled_input(event: InputEvent) -> void:
 			is_closing = true
 			if is_info_closed:
 				var tween = get_tree().create_tween().set_parallel(true)
-				tween.tween_property(info, "size_flags_stretch_ratio", 1, 0.5).set_trans(Tween.TRANS_SINE)
+				tween.tween_property(info, "size_flags_stretch_ratio", 1, 1).set_trans(Tween.TRANS_SINE)
 				
 				tween.chain().tween_property(stats, "visible", true, 0.0)
 				tween.tween_property(log, "visible", true, 0.0)
 				
-				tween.tween_property(stats, "modulate", Color(1,1,1,1), 0.5).set_trans(Tween.TRANS_SINE)
-				tween.tween_property(log, "modulate", Color(1,1,1,1), 0.5).set_trans(Tween.TRANS_SINE)
+				tween.tween_property(stats, "modulate", Color(1,1,1,1), 1).set_trans(Tween.TRANS_SINE)
+				tween.tween_property(log, "modulate", Color(1,1,1,1), 1).set_trans(Tween.TRANS_SINE)
 				await (tween.finished)
 				is_closing = false
 			else:
 				var tween = get_tree().create_tween().set_parallel(true)
-				tween.tween_property(stats, "modulate", Color(1,1,1,0), 0.5).set_trans(Tween.TRANS_SINE)
-				tween.tween_property(log, "modulate", Color(1,1,1,0), 0.5).set_trans(Tween.TRANS_SINE)
+				tween.tween_property(stats, "modulate", Color(1,1,1,0), 1).set_trans(Tween.TRANS_SINE)
+				tween.tween_property(log, "modulate", Color(1,1,1,0), 1).set_trans(Tween.TRANS_SINE)
 				
 				tween.chain().tween_property(stats, "visible", false, 0.0)
 				tween.tween_property(log, "visible", false, 0.0)
 				
-				tween.tween_property(info, "size_flags_stretch_ratio", 0, 0.5).set_trans(Tween.TRANS_SINE)
+				tween.tween_property(info, "size_flags_stretch_ratio", 0, 1).set_trans(Tween.TRANS_SINE)
 				await (tween.finished)
 				is_closing = false
 

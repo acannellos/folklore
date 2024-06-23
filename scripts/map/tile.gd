@@ -32,3 +32,6 @@ func is_walkable() -> bool:
 
 func is_transparent() -> bool:
 	return _tile_data.is_transparent
+
+func is_pool() -> bool:
+	return _tile_data.is_pool

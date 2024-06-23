@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="_TileData" load_steps=4 format=3 uid="uid://bm6hgqt2n5o3o"]
+
+[ext_resource type="Script" path="res://scripts/map/tile_data.gd" id="1_la0av"]
+[ext_resource type="Texture2D" uid="uid://cmm7oqaf0okjy" path="res://assets/textures/ascii_transparent.png" id="2_jqp2e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ubu3u"]
+atlas = ExtResource("2_jqp2e")
+region = Rect2(991, 437, 25, 24)
+
+[resource]
+script = ExtResource("1_la0av")
+texture = SubResource("AtlasTexture_ubu3u")
+color_lit = Color(0, 0.866667, 0.866667, 1)
+color_dark = Color(0, 0.423529, 0.423529, 1)
+is_walkable = true
+is_transparent = true
+is_pool = true

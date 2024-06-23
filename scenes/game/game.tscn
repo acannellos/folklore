@@ -38,6 +38,9 @@ info = NodePath("hbox/info")
 stats = NodePath("hbox/info/stats/stats_vbox")
 log = NodePath("hbox/info/log/log_margin")
 
+[node name="bg" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("14_tqvwh")
+
 [node name="hbox" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -216,10 +219,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("14_tqvwh")
-autoplay = true
 
 [connection signal="player_created" from="hbox/view/subview/game" to="hbox/info/stats/stats_vbox/hp_margin" method="initialize"]
 [connection signal="entities_focussed" from="hbox/view/subview/game/map/mouseover" to="hbox/info/stats/stats_vbox/mouseover_label" method="set_text"]
