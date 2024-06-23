@@ -14,7 +14,7 @@
 [ext_resource type="Script" path="res://scripts/UI/message_log.gd" id="10_y6ch7"]
 [ext_resource type="LabelSettings" uid="uid://cwb7a6f1btovb" path="res://data/UI/label_settings.tres" id="11_hmiy5"]
 [ext_resource type="Material" uid="uid://dhw1h6yuyb22i" path="res://assets/shaders/shader_mat.tres" id="14_aq0jv"]
-[ext_resource type="AudioStream" uid="uid://dbo48dolivetw" path="res://assets/audio/winds_trim.wav" id="14_tqvwh"]
+[ext_resource type="LabelSettings" uid="uid://e2f7otuusaic" path="res://data/UI/label_settings_small.tres" id="15_6us8k"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eqkyq"]
 bg_color = Color(0.756863, 0.52549, 0.592157, 0.407843)
@@ -37,10 +37,7 @@ script = ExtResource("1_5vr4e")
 info = NodePath("hbox/info")
 stats = NodePath("hbox/info/stats/stats_vbox")
 log = NodePath("hbox/info/log/log_margin")
-
-[node name="bg" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("14_tqvwh")
-pitch_scale = 0.9
+torch_nonactive = Color(0.345098, 0.345098, 0.345098, 1)
 
 [node name="hbox" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -110,11 +107,11 @@ theme_override_styles/panel = ExtResource("6_unt8r")
 [node name="stats_vbox" type="VBoxContainer" parent="hbox/info/stats"]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="hbox/info/stats/stats_vbox"]
+[node name="player_name" type="Control" parent="hbox/info/stats/stats_vbox"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="hbox/info/stats/stats_vbox/Control"]
+[node name="Label" type="Label" parent="hbox/info/stats/stats_vbox/player_name"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -161,9 +158,109 @@ patch_margin_top = 19
 patch_margin_right = 15
 patch_margin_bottom = 19
 
-[node name="Control2" type="Control" parent="hbox/info/stats/stats_vbox"]
+[node name="torch_margin" type="MarginContainer" parent="hbox/info/stats/stats_vbox"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="hbox/info/stats/stats_vbox/torch_margin"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="torch_1" type="NinePatchRect" parent="hbox/info/stats/stats_vbox/torch_margin/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("10_q7agr")
+region_rect = Rect2(-6, -5, 57, 59)
+patch_margin_left = 17
+patch_margin_top = 19
+patch_margin_right = 15
+patch_margin_bottom = 19
+
+[node name="Label" type="Label" parent="hbox/info/stats/stats_vbox/torch_margin/HBoxContainer/torch_1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "1"
+label_settings = ExtResource("15_6us8k")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="torch_2" type="NinePatchRect" parent="hbox/info/stats/stats_vbox/torch_margin/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("10_q7agr")
+region_rect = Rect2(-6, -5, 57, 59)
+patch_margin_left = 17
+patch_margin_top = 19
+patch_margin_right = 15
+patch_margin_bottom = 19
+
+[node name="Label" type="Label" parent="hbox/info/stats/stats_vbox/torch_margin/HBoxContainer/torch_2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "2"
+label_settings = ExtResource("15_6us8k")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="torch_3" type="NinePatchRect" parent="hbox/info/stats/stats_vbox/torch_margin/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("10_q7agr")
+region_rect = Rect2(-6, -5, 57, 59)
+patch_margin_left = 17
+patch_margin_top = 19
+patch_margin_right = 15
+patch_margin_bottom = 19
+
+[node name="Label" type="Label" parent="hbox/info/stats/stats_vbox/torch_margin/HBoxContainer/torch_3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "3"
+label_settings = ExtResource("15_6us8k")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="torch_4" type="NinePatchRect" parent="hbox/info/stats/stats_vbox/torch_margin/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("10_q7agr")
+region_rect = Rect2(-6, -5, 57, 59)
+patch_margin_left = 17
+patch_margin_top = 19
+patch_margin_right = 15
+patch_margin_bottom = 19
+
+[node name="Label" type="Label" parent="hbox/info/stats/stats_vbox/torch_margin/HBoxContainer/torch_4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "4"
+label_settings = ExtResource("15_6us8k")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="mouseover_label" type="Label" parent="hbox/info/stats/stats_vbox"]
 layout_mode = 2
@@ -211,7 +308,131 @@ message_list = NodePath("message_list")
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="pause" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="pause"]
+modulate = Color(0.34902, 0.34902, 0.34902, 0.486275)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="title" type="Label" parent="pause"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Paused"
+label_settings = ExtResource("11_hmiy5")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="resume" type="Label" parent="pause"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 88.0
+offset_bottom = 112.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "[Esc] Resume"
+label_settings = ExtResource("15_6us8k")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="crt" type="Label" parent="pause"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 138.0
+offset_bottom = 162.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "[C] Toggle CRT Effect"
+label_settings = ExtResource("15_6us8k")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="quit" type="Label" parent="pause"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 188.0
+offset_bottom = 212.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "[Q] Quit"
+label_settings = ExtResource("15_6us8k")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="margin" type="MarginContainer" parent="pause"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -432.0
+offset_right = 746.0
+grow_vertical = 0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Label" type="Label" parent="pause/margin"]
+layout_mode = 2
+text = "Controls:
+Tab - Open/Close Info Panel
+J - Wait turn, (Numpad 5)
+U - Up, (Numpad 8, Up Arrow)
+M - Down, (Numpad 2, Down Arrow)
+H - Left, (Numpad 4, Left Arrow)
+K - Right (Numpad 6, Right Arrow)
+Y - Up/Left, (Numpad 7)
+I - Up/Right, (Numpad 9)
+N - Down/Left, (Numpad 1)
+\",\" - Down/Right (Numpad 3)
+1/2/3/4 Select Torch"
+label_settings = ExtResource("15_6us8k")
+
+[node name="retry" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -255.0
+offset_bottom = -188.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "[R] Reincarnation"
+label_settings = ExtResource("11_hmiy5")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="post" type="ColorRect" parent="."]
+unique_name_in_owner = true
 material = ExtResource("14_aq0jv")
 layout_mode = 1
 anchors_preset = 15

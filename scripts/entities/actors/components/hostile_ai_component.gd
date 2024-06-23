@@ -9,14 +9,14 @@ func perform() -> void:
 	var offset: Vector2i = target_grid_position - entity.grid_position
 	var distance: int = max(abs(offset.x), abs(offset.y))
 	
-	if get_map_data().get_tile(entity.grid_position).is_in_view:
+	if get_map_data().get_tile(entity.grid_position).is_in_view and not Global.death_flag:
 		if distance <= 1:
 			return MeleeAction.new(entity, offset.x, offset.y).perform()
 		
 		path = get_point_path_to(target_grid_position)
 		path.pop_front()
 	
-	if not path.is_empty():
+	if not path.is_empty() and not Global.death_flag:
 		var destination := Vector2i(path[0])
 		if get_map_data().get_blocking_entity_at_location(destination):
 			return WaitAction.new(entity).perform()

@@ -22,7 +22,7 @@ func _ready() -> void:
 	Events.player_died.connect(game_over)
 	
 	MessageLog.send_message.bind(
-		"Welcome, Druid, to yet another forest..",
+		"Legends speak of a sacred pool..",
 		GameColors.base2
 	).call_deferred()
 	
@@ -33,18 +33,22 @@ func _unhandled_input(event: InputEvent) -> void:
 		map.fov_radius = 4
 		map.update_fov(player.grid_position)
 		MessageLog.send_message("torch 1 equipped", GameColors.INVALID)
+		Events.torch_equipped.emit(1)
 	if Input.is_action_just_pressed("torch_2"):
 		map.fov_radius = 8
 		map.update_fov(player.grid_position)
 		MessageLog.send_message("torch 2 equipped", GameColors.INVALID)
+		Events.torch_equipped.emit(2)
 	if Input.is_action_just_pressed("torch_3"):
 		map.fov_radius = 12
 		map.update_fov(player.grid_position)
 		MessageLog.send_message("torch 3 equipped", GameColors.INVALID)
+		Events.torch_equipped.emit(3)
 	if Input.is_action_just_pressed("torch_4"):
 		map.fov_radius = 24
 		map.update_fov(player.grid_position)
 		MessageLog.send_message("torch 4 equipped", GameColors.INVALID)
+		Events.torch_equipped.emit(4)
 
 
 #func _physics_process(_delta: float) -> void:
@@ -72,4 +76,6 @@ func get_map_data() -> MapData:
 	return map.map_data
 
 func game_over() -> void:
+	Global.death_flag = true
+	%retry.show()
 	print("game over, dude")
