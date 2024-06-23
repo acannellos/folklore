@@ -29,6 +29,9 @@ func set_entity_type(entity_data: EntityData) -> void:
 	modulate = entity_data.color
 	
 	match entity_data.ai_type:
+		#Enums.AIType.NONE:
+			#ai_component = AIComponent.new()
+			#add_child(ai_component)
 		Enums.AIType.PLAYER:
 			ai_component = AIComponent.new()
 			add_child(ai_component)

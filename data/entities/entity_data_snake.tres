@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="EntityData" load_steps=7 format=3 uid="uid://68byx8pqyk4"]
+
+[ext_resource type="Texture2D" uid="uid://baj4q2yhlehqu" path="res://data/entities/grave.tres" id="1_xv22v"]
+[ext_resource type="Script" path="res://scripts/entities/entity_data.gd" id="1_yrip7"]
+[ext_resource type="Script" path="res://scripts/entities/actors/components/fighter_data.gd" id="2_7st7w"]
+[ext_resource type="Texture2D" uid="uid://cmm7oqaf0okjy" path="res://assets/textures/ascii_transparent.png" id="4_432aw"]
+
+[sub_resource type="Resource" id="Resource_d26v3"]
+script = ExtResource("2_7st7w")
+max_hp = 10
+power = 3
+defense = 0
+death_texture = ExtResource("1_xv22v")
+death_color = Color(0.545098, 0, 0, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6bn56"]
+atlas = ExtResource("4_432aw")
+region = Rect2(413, 189, 25, 24)
+
+[resource]
+script = ExtResource("1_yrip7")
+name = "Snake"
+texture = SubResource("AtlasTexture_6bn56")
+color = Color(1, 0.509804, 0.509804, 1)
+is_blocking_movement = true
+type = 2
+fighter_data = SubResource("Resource_d26v3")
+ai_type = 2

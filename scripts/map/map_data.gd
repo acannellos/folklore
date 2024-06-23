@@ -6,8 +6,10 @@ const tile_types = {
 	"grass": preload("res://data/map/tile_data_floor_grass.tres"),
 	"dot": preload("res://data/map/tile_data_floor_dot.tres"),
 	"other": preload("res://data/map/tile_data_floor_other.tres"),
+	"path": preload("res://data/map/tile_data_floor_path.tres"),
 	
 	"wall": preload("res://data/map/tile_data_wall.tres"),
+	"brick": preload("res://data/map/tile_data_wall_brick.tres"),
 	
 	"elm": preload("res://data/map/tile_data_tree_elm.tres"),
 	"fir": preload("res://data/map/tile_data_tree_fir.tres"),
@@ -15,8 +17,6 @@ const tile_types = {
 }
 
 const entity_pathfinding_weight = 10.0
-
-var _rng := RandomNumberGenerator.new()
 
 var width: int
 var height: int
@@ -40,9 +40,8 @@ func _setup_tiles() -> void:
 			#var tile := Tile.new(tile_position, tile_types.floor)
 			#var tile := Tile.new(tile_position, tile_types.oak)
 			
-			var roll: int = _rng.randi_range(0, 2)
 			var tile: Tile
-			match roll:
+			match randi_range(0, 2):
 				0:
 					tile = Tile.new(tile_position, tile_types.elm)
 				1:
@@ -103,7 +102,7 @@ func setup_pathfinding() -> void:
 func get_actors() -> Array[Entity]:
 	var actors: Array[Entity] = []
 	for entity in entities:
-		if entity.is_alive():
+		if entity.is_alive() or entity.type == Enums.EntityType.SIGN:
 			actors.append(entity)
 	return actors
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://b06qolei86p7r"]
+[gd_scene load_steps=20 format=3 uid="uid://b06qolei86p7r"]
 
 [ext_resource type="Script" path="res://scripts/game/root.gd" id="1_5vr4e"]
 [ext_resource type="Shader" path="res://assets/shaders/crt.gdshader" id="1_jwys7"]
@@ -11,18 +11,16 @@
 [ext_resource type="Script" path="res://scripts/UI/mouseover.gd" id="7_1bwho"]
 [ext_resource type="Script" path="res://scripts/UI/hp_margin.gd" id="8_6tuln"]
 [ext_resource type="FontFile" uid="uid://6yvsm2j7a73b" path="res://assets/fonts/Px437_IBM_BIOS.ttf" id="8_25gen"]
+[ext_resource type="Texture2D" uid="uid://b1eueqo5f0u1n" path="res://assets/textures/panel-border-030.png" id="10_q7agr"]
 [ext_resource type="Script" path="res://scripts/UI/message_log.gd" id="10_y6ch7"]
 [ext_resource type="LabelSettings" uid="uid://cwb7a6f1btovb" path="res://data/UI/label_settings.tres" id="11_hmiy5"]
 [ext_resource type="AudioStream" uid="uid://dbo48dolivetw" path="res://assets/audio/winds_trim.wav" id="14_tqvwh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eqkyq"]
-bg_color = Color(0.6, 0.6, 0.6, 0.407843)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
+bg_color = Color(0.756863, 0.52549, 0.592157, 0.407843)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qhj1h"]
+bg_color = Color(0.529412, 0.266667, 0.301961, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_hdypj"]
 font = ExtResource("8_25gen")
@@ -95,7 +93,6 @@ tiles = NodePath("tiles")
 entities = NodePath("entities")
 forest_generator = NodePath("forest")
 fov = NodePath("fov")
-fov_radius = 24
 
 [node name="forest" type="Node" parent="hbox/view/subview/game/map"]
 script = ExtResource("4_md5ah")
@@ -111,7 +108,7 @@ script = ExtResource("5_sfheq")
 script = ExtResource("7_1bwho")
 
 [node name="camera" type="Camera2D" parent="hbox/view/subview/game"]
-position_smoothing_speed = 1.0
+position_smoothing_speed = 2.0
 
 [node name="info" type="VBoxContainer" parent="hbox"]
 layout_mode = 2
@@ -150,10 +147,19 @@ show_percentage = false
 
 [node name="hp_label" type="Label" parent="hbox/info/stats/stats_vbox/hp_margin"]
 layout_mode = 2
-text = "test"
+text = "HP"
 label_settings = SubResource("LabelSettings_hdypj")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="NinePatchRect" type="NinePatchRect" parent="hbox/info/stats/stats_vbox/hp_margin"]
+layout_mode = 2
+texture = ExtResource("10_q7agr")
+region_rect = Rect2(-6, -5, 57, 59)
+patch_margin_left = 17
+patch_margin_top = 19
+patch_margin_right = 15
+patch_margin_bottom = 19
 
 [node name="Control2" type="Control" parent="hbox/info/stats/stats_vbox"]
 layout_mode = 2
@@ -161,7 +167,6 @@ size_flags_vertical = 3
 
 [node name="mouseover_label" type="Label" parent="hbox/info/stats/stats_vbox"]
 layout_mode = 2
-text = "test"
 label_settings = ExtResource("11_hmiy5")
 horizontal_alignment = 1
 
@@ -201,6 +206,7 @@ mouse_filter = 2
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("14_tqvwh")
+autoplay = true
 
 [connection signal="player_created" from="hbox/view/subview/game" to="hbox/info/stats/stats_vbox/hp_margin" method="initialize"]
 [connection signal="entities_focussed" from="hbox/view/subview/game/map/mouseover" to="hbox/info/stats/stats_vbox/mouseover_label" method="set_text"]
