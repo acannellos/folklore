@@ -23,7 +23,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_r8fec")
 theme_override_font_sizes/font_size = 45
-text = "Four Fables"
+text = "Pools of Iper"
 horizontal_alignment = 1
 vertical_alignment = 1
 

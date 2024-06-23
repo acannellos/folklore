@@ -9,7 +9,7 @@ func perform() -> bool:
 		return false
 	
 	if target.type == Enums.EntityType.SIGN:
-		MessageLog.send_message("hellooo friendo !!!^0198 $%&!*(@", GameColors.IMPOSSIBLE)
+		MessageLog.send_message("hellooo friendo !^ $%&!*(@, have y^u heard $%!@ the pools of ip^* )(@*$!@ @!# ^% !@#$ hea! y^u)", GameColors.HEALTH_RECOVERED)
 		return false
 	
 	var damage: int = entity.fighter_component.power - target.fighter_component.defense
@@ -18,9 +18,9 @@ func perform() -> bool:
 		attack_color = GameColors.PLAYER_ATTACK
 	else:
 		attack_color = GameColors.ENEMY_ATTACK
-	var attack_description: String = "%s hits %s" % [entity.get_entity_name(), target.get_entity_name()]
+	var attack_description: String = "%s %s %s" % [entity.get_entity_name(), entity.get_attack_string(), target.get_entity_name()]
 	if damage > 0:
-		attack_description += " for %d hp." % damage
+		attack_description += " for %d hit points." % damage
 		MessageLog.send_message(attack_description, attack_color)
 		target.fighter_component.hp -= damage
 	else:

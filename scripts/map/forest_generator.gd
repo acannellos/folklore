@@ -55,6 +55,15 @@ func _create_floor(forest: MapData, x: int, y: int) -> void:
 		
 		#tile.set_tile_type(forest.tile_types.floor)
 
+func _create_pool(forest: MapData, x: int, y: int) -> void:
+		var tile_position = Vector2i(x, y)
+		var tile: Tile = forest.get_tile(tile_position)
+		if randf() < 0.9:
+			tile.set_tile_type(forest.tile_types.pool)
+		else:
+			tile.set_tile_type(forest.tile_types.pool_deep)
+		#tile.set_tile_type(forest.tile_types.pool)
+
 func _create_tree(forest: MapData, x: int, y: int) -> void:
 		var tile_position = Vector2i(x, y)
 		var tile: Tile = forest.get_tile(tile_position)
@@ -151,6 +160,8 @@ func generate_forest(player: Entity) -> MapData:
 	var center := map_rect.get_center()
 	var center_floors := Rect2i(center.x - 10, center.y - 10, 20, 20)
 	
+	var iper_pool: Rect2i
+	
 	for y in map_height:
 		for x in map_width:
 			if randf() < 0.95:
@@ -162,8 +173,8 @@ func generate_forest(player: Entity) -> MapData:
 		var room_width: int = _rng.randi_range(room_min_size, room_max_size)
 		var room_height: int = _rng.randi_range(room_min_size, room_max_size)
 		
-		var x: int = _rng.randi_range(0, forest.width - room_width - 1)
-		var y: int = _rng.randi_range(0, forest.height - room_height - 1)
+		var x: int = _rng.randi_range(3, forest.width - room_width - 1)
+		var y: int = _rng.randi_range(3, forest.height - room_height - 1)
 		
 		var new_room := Rect2i(x, y, room_width, room_height)
 		
@@ -178,12 +189,27 @@ func generate_forest(player: Entity) -> MapData:
 		_create_room(forest, new_room)
 		
 		if rooms.is_empty():
-			#_create_floor(forest, center.x, center.y)
+			iper_pool = new_room.grow(-2)
+			print(iper_pool)
+			for iy in range(iper_pool.position.y, iper_pool.end.y + 1):
+				for ix in range(iper_pool.position.x, iper_pool.end.x + 1):
+					_create_pool(forest, ix, iy)
 			#_create_floors(forest, center_floors)
+			#var inner: Rect2i = new_room.grow(-2)
+			#for iy in range(inner.position.y, inner.end.y + 1):
+				#for ix in range(inner.position.x, inner.end.x + 1):
+					#_create_pool(forest, x, y)
 			player.grid_position = center
 			player.map_data = forest
 		else:
 			_tunnel_between(forest, rooms.back().get_center(), new_room.get_center())
+		
+		#if _try_room == max_rooms - 2:
+			#print("baba")
+			#var inner: Rect2i = new_room.grow(-1)
+			#for iy in range(inner.position.y, inner.end.y + 1):
+				#for ix in range(inner.position.x, inner.end.x + 1):
+					#_create_pool(forest, ix, iy)
 		
 		_place_entities(forest, new_room)
 		
@@ -197,6 +223,10 @@ func generate_forest(player: Entity) -> MapData:
 				#pass
 			#else:
 				#_create_tree(forest, x, y)
+	
+	#for iy in range(iper_pool.position.y, iper_pool.end.y + 1):
+		#for ix in range(iper_pool.position.x, iper_pool.end.x + 1):
+			#_create_pool(forest, ix, iy)
 	
 	_path_vertical(forest, center.x + 1, center.y, center.y - 15)
 	

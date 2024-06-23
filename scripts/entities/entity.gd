@@ -49,6 +49,9 @@ func is_blocking_movement() -> bool:
 func get_entity_name() -> String:
 	return entity_name
 
+func get_attack_string() -> String:
+	return fighter_component.attack_string
+
 var grid_position: Vector2i:
 	set(value):
 		grid_position = value

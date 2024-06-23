@@ -12,6 +12,7 @@ power = 3
 defense = 0
 death_texture = ExtResource("1_xv22v")
 death_color = Color(0.545098, 0, 0, 1)
+attack_string = "bites"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6bn56"]
 atlas = ExtResource("4_432aw")

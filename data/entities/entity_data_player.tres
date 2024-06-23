@@ -12,6 +12,7 @@ power = 5
 defense = 2
 death_texture = ExtResource("1_ij0uq")
 death_color = Color(0.545098, 0, 0, 1)
+attack_string = "attacks"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ylhsw"]
 atlas = ExtResource("2_vfy8s")

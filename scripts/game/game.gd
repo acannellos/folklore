@@ -23,7 +23,7 @@ func _ready() -> void:
 	
 	MessageLog.send_message.bind(
 		"Welcome, Druid, to yet another forest..",
-		GameColors.WELCOME_TEXT
+		GameColors.base2
 	).call_deferred()
 
 func _unhandled_input(event: InputEvent) -> void:
