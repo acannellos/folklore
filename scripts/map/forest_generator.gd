@@ -11,13 +11,15 @@ extends Node
 @export var room_min_size: int = 10
 
 @export_category("Mob RNG")
-@export var max_mob_per_room = 2
+@export var max_mob_per_room = 4
 
 var forest: MapData
 
 const entity_types = {
 	"wolf": preload("res://data/entities/entity_data_wolf.tres"),
 	"antelope": preload("res://data/entities/entity_data_antelope.tres"),
+	"snake": preload("res://data/entities/entity_data_snake.tres"),
+	"sign": preload("res://data/entities/entity_data_sign.tres"),
 }
 
 var _rng := RandomNumberGenerator.new()
@@ -28,14 +30,20 @@ func _ready() -> void:
 func _create_wall(forest: MapData, x: int, y: int) -> void:
 		var tile_position = Vector2i(x, y)
 		var tile: Tile = forest.get_tile(tile_position)
-		tile.set_tile_type(forest.tile_types.wall)
+		#tile.set_tile_type(forest.tile_types.wall)
+		match randi_range(0, 2):
+			0:
+				tile.set_tile_type(forest.tile_types.brick)
+			1:
+				tile.set_tile_type(forest.tile_types.brick)
+			2:
+				tile.set_tile_type(forest.tile_types.wall)
 
 func _create_floor(forest: MapData, x: int, y: int) -> void:
 		var tile_position = Vector2i(x, y)
 		var tile: Tile = forest.get_tile(tile_position)
 		
-		var roll: int = _rng.randi_range(0, 3)
-		match roll:
+		match randi_range(0, 3):
 			0:
 				tile.set_tile_type(forest.tile_types.grass)
 			1:
@@ -47,10 +55,15 @@ func _create_floor(forest: MapData, x: int, y: int) -> void:
 		
 		#tile.set_tile_type(forest.tile_types.floor)
 
-#func _create_tree(forest: MapData, x: int, y: int) -> void:
-		#var tile_position = Vector2i(x, y)
-		#var tile: Tile = forest.get_tile(tile_position)
-		#tile.set_tile_type(forest.tile_types.oak)
+func _create_tree(forest: MapData, x: int, y: int) -> void:
+		var tile_position = Vector2i(x, y)
+		var tile: Tile = forest.get_tile(tile_position)
+		tile.set_tile_type(forest.tile_types.fir)
+
+func _create_path(forest: MapData, x: int, y: int) -> void:
+		var tile_position = Vector2i(x, y)
+		var tile: Tile = forest.get_tile(tile_position)
+		tile.set_tile_type(forest.tile_types.path)
 
 func _create_room(forest: MapData, room: Rect2i) -> void:
 	for y in range(room.position.y, room.end.y + 1):
@@ -81,6 +94,12 @@ func _tunnel_vertical(forest: MapData, x: int, y_start: int, y_end: int) -> void
 		if not forest.get_tile(Vector2i(x, y)).is_walkable():
 			_create_floor(forest, x, y)
 
+func _path_vertical(forest: MapData, x: int, y_start: int, y_end: int) -> void:
+	var y_min: int = mini(y_start, y_end)
+	var y_max: int = maxi(y_start, y_end)
+	for y in range(y_min, y_max + 1):
+		_create_path(forest, x, y)
+
 func _tunnel_between(forest: MapData, start: Vector2i, end: Vector2i) -> void:
 	if _rng.randf() < 0.5:
 		_tunnel_horizontal(forest, start.y, start.x, end.x)
@@ -106,10 +125,17 @@ func _place_entities(forest: MapData, room: Rect2i) -> void:
 		
 		if can_place:
 			var new_entity: Entity
-			if _rng.randf() < 0.5:
-				new_entity = Entity.new(forest, new_entity_position, entity_types.wolf)
-			else:
-				new_entity = Entity.new(forest, new_entity_position, entity_types.antelope)
+			match randi_range(0, 2):
+				0:
+					new_entity = Entity.new(forest, new_entity_position, entity_types.wolf)
+				1:
+					new_entity = Entity.new(forest, new_entity_position, entity_types.antelope)
+				2:
+					new_entity = Entity.new(forest, new_entity_position, entity_types.snake)
+			#if _rng.randf() < 0.5:
+				#new_entity = Entity.new(forest, new_entity_position, entity_types.wolf)
+			#else:
+				#new_entity = Entity.new(forest, new_entity_position, entity_types.antelope)
 			forest.entities.append(new_entity)
 
 func generate_forest(player: Entity) -> MapData:
@@ -121,6 +147,9 @@ func generate_forest(player: Entity) -> MapData:
 	_create_floors(forest, floors)
 	
 	var rooms: Array[Rect2i] = []
+	var map_rect := Rect2i(0, 0, map_width, map_height)
+	var center := map_rect.get_center()
+	var center_floors := Rect2i(center.x - 10, center.y - 10, 20, 20)
 	
 	for _try_room in max_rooms:
 		var room_width: int = _rng.randi_range(room_min_size, room_max_size)
@@ -142,7 +171,9 @@ func generate_forest(player: Entity) -> MapData:
 		_create_room(forest, new_room)
 		
 		if rooms.is_empty():
-			player.grid_position = new_room.get_center()
+			#_create_floor(forest, center.x, center.y)
+			#_create_floors(forest, center_floors)
+			player.grid_position = center
 			player.map_data = forest
 		else:
 			_tunnel_between(forest, rooms.back().get_center(), new_room.get_center())
@@ -150,6 +181,22 @@ func generate_forest(player: Entity) -> MapData:
 		_place_entities(forest, new_room)
 		
 		rooms.append(new_room)
+	
+	_create_floors(forest, center_floors)
+	
+	for y in map_height:
+		for x in map_width:
+			if randf() < 0.95:
+				pass
+			else:
+				_create_tree(forest, x, y)
+	
+	_path_vertical(forest, center.x + 1, center.y, center.y - 15)
+	
+	#var temp_tile: Tile = forest.get_tile(Vector2i(center.x + 1, center.y))
+	#temp_tile.set_tile_type(forest.tile_types.sign)
+	var new_sign: Entity = Entity.new(forest, Vector2i(center.x + 1, center.y), entity_types.sign)
+	forest.entities.append(new_sign)
 	
 	forest.setup_pathfinding()
 	return forest

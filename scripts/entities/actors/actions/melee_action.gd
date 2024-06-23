@@ -8,6 +8,10 @@ func perform() -> bool:
 			MessageLog.send_message("Nothing to attack.", GameColors.IMPOSSIBLE)
 		return false
 	
+	if target.type == Enums.EntityType.SIGN:
+		MessageLog.send_message("hellooo friendo !!!^0198371234", GameColors.IMPOSSIBLE)
+		return false
+	
 	var damage: int = entity.fighter_component.power - target.fighter_component.defense
 	var attack_color: Color
 	if entity == get_map_data().player:

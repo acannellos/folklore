@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EntityData" load_steps=4 format=3 uid="uid://dvom3xg8o2jrr"]
+
+[ext_resource type="Script" path="res://scripts/entities/entity_data.gd" id="1_jjr20"]
+[ext_resource type="Texture2D" uid="uid://cmm7oqaf0okjy" path="res://assets/textures/ascii_transparent.png" id="2_10rph"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oaadl"]
+atlas = ExtResource("2_10rph")
+region = Rect2(957, 499, 25, 24)
+
+[resource]
+script = ExtResource("1_jjr20")
+name = "Sign"
+texture = SubResource("AtlasTexture_oaadl")
+color = Color(1, 1, 1, 1)
+is_blocking_movement = true
+type = 3
+ai_type = 0
