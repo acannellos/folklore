@@ -5,7 +5,9 @@ var max_hp: int
 var hp: int:
 	set(value):
 		hp = clampi(value, 0, max_hp)
-		Events.player_hp_changed.emit(hp, max_hp)
+		#Events.player_hp_changed.emit(hp, max_hp)
+		Events.fighter_hp_changed.emit(entity, hp, max_hp)
+		
 		if hp <= 0:
 			die()
 var defense: int

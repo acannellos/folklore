@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://e2f7otuusaic"]
+
+[ext_resource type="FontFile" uid="uid://dxqdgv4vacswi" path="res://assets/fonts/Mx437_IBM_BIOS.ttf" id="1_mtaop"]
+
+[resource]
+font = ExtResource("1_mtaop")
+font_size = 22

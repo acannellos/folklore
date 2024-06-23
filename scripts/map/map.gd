@@ -9,6 +9,16 @@ extends Node2D
 
 var map_data: MapData
 
+#func _unhandled_input(event: InputEvent) -> void:
+	#if Input.is_action_just_pressed("torch_1"):
+		#fov_radius = 4
+	#if Input.is_action_just_pressed("torch_2"):
+		#fov_radius = 8
+	#if Input.is_action_just_pressed("torch_3"):
+		#fov_radius = 16
+	#if Input.is_action_just_pressed("torch_4"):
+		#fov_radius = 32
+
 func generate(player: Entity) -> void:
 	map_data = forest_generator.generate_forest(player)
 	_place_tiles()

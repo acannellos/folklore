@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://pbsog23ss0vc"]
+
+[ext_resource type="Theme" uid="uid://dp5t0u87gdv2a" path="res://data/UI/theme.tres" id="1_r8fec"]
+[ext_resource type="Material" uid="uid://dhw1h6yuyb22i" path="res://assets/shaders/shader_mat.tres" id="2_qmkdp"]
+
+[node name="main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_r8fec")
+theme_override_font_sizes/font_size = 45
+text = "Four Fables"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="post" type="ColorRect" parent="."]
+material = ExtResource("2_qmkdp")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

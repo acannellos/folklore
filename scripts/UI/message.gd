@@ -1,7 +1,7 @@
 class_name Message
 extends Label
 
-const base_label_settings = preload("res://data/UI/label_settings.tres")
+const base_label_settings = preload("res://data/UI/label_settings_small.tres")
 
 var plain_text: String
 var count: int = 1:

@@ -1,7 +1,6 @@
-[gd_scene load_steps=20 format=3 uid="uid://b06qolei86p7r"]
+[gd_scene load_steps=19 format=3 uid="uid://b06qolei86p7r"]
 
 [ext_resource type="Script" path="res://scripts/game/root.gd" id="1_5vr4e"]
-[ext_resource type="Shader" path="res://assets/shaders/crt.gdshader" id="1_jwys7"]
 [ext_resource type="Script" path="res://scripts/game/game.gd" id="1_pnjno"]
 [ext_resource type="Script" path="res://scripts/game/input_handler.gd" id="3_53pig"]
 [ext_resource type="Script" path="res://scripts/map/map.gd" id="3_lim6u"]
@@ -14,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://b1eueqo5f0u1n" path="res://assets/textures/panel-border-030.png" id="10_q7agr"]
 [ext_resource type="Script" path="res://scripts/UI/message_log.gd" id="10_y6ch7"]
 [ext_resource type="LabelSettings" uid="uid://cwb7a6f1btovb" path="res://data/UI/label_settings.tres" id="11_hmiy5"]
+[ext_resource type="Material" uid="uid://dhw1h6yuyb22i" path="res://assets/shaders/shader_mat.tres" id="14_aq0jv"]
 [ext_resource type="AudioStream" uid="uid://dbo48dolivetw" path="res://assets/audio/winds_trim.wav" id="14_tqvwh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eqkyq"]
@@ -25,23 +25,6 @@ bg_color = Color(0.529412, 0.266667, 0.301961, 1)
 [sub_resource type="LabelSettings" id="LabelSettings_hdypj"]
 font = ExtResource("8_25gen")
 font_size = 24
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jv0js"]
-shader = ExtResource("1_jwys7")
-shader_parameter/resolution = Vector2(640, 360)
-shader_parameter/scan_line_amount = 1.0
-shader_parameter/warp_amount = 0.3
-shader_parameter/noise_amount = 0.05
-shader_parameter/interference_amount = 0.2
-shader_parameter/grille_amount = 0.3
-shader_parameter/grille_size = 1.0
-shader_parameter/vignette_amount = 0.6
-shader_parameter/vignette_intensity = 0.4
-shader_parameter/aberation_amount = 0.5
-shader_parameter/roll_line_amount = 0.0
-shader_parameter/roll_speed = 1.0
-shader_parameter/scan_line_strength = -8.0
-shader_parameter/pixel_strength = -2.0
 
 [node name="root" type="Control" node_paths=PackedStringArray("info", "stats", "log")]
 layout_mode = 3
@@ -127,6 +110,18 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 
+[node name="Label" type="Label" parent="hbox/info/stats/stats_vbox/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Druid"
+label_settings = ExtResource("11_hmiy5")
+horizontal_alignment = 1
+vertical_alignment = 2
+
 [node name="hp_margin" type="MarginContainer" parent="hbox/info/stats/stats_vbox" node_paths=PackedStringArray("hp_bar", "hp_label")]
 layout_mode = 2
 size_flags_vertical = 3
@@ -153,6 +148,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="NinePatchRect" type="NinePatchRect" parent="hbox/info/stats/stats_vbox/hp_margin"]
+modulate = Color(0.643137, 0.517647, 0.517647, 1)
 layout_mode = 2
 texture = ExtResource("10_q7agr")
 region_rect = Rect2(-6, -5, 57, 59)
@@ -183,19 +179,36 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 40
 theme_override_constants/margin_bottom = 10
 
-[node name="message_log" type="ScrollContainer" parent="hbox/info/log/log_margin" node_paths=PackedStringArray("message_list")]
+[node name="NinePatchRect" type="NinePatchRect" parent="hbox/info/log/log_margin"]
+modulate = Color(0.517647, 0.517647, 0.517647, 1)
+layout_mode = 2
+texture = ExtResource("10_q7agr")
+region_rect = Rect2(-6, -5, 57, 59)
+patch_margin_left = 17
+patch_margin_top = 19
+patch_margin_right = 15
+patch_margin_bottom = 19
+
+[node name="MarginContainer" type="MarginContainer" parent="hbox/info/log/log_margin"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 28
+
+[node name="message_log" type="ScrollContainer" parent="hbox/info/log/log_margin/MarginContainer" node_paths=PackedStringArray("message_list")]
 layout_mode = 2
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 3
 script = ExtResource("10_y6ch7")
 message_list = NodePath("message_list")
 
-[node name="message_list" type="VBoxContainer" parent="hbox/info/log/log_margin/message_log"]
+[node name="message_list" type="VBoxContainer" parent="hbox/info/log/log_margin/MarginContainer/message_log"]
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="post" type="ColorRect" parent="."]
-material = SubResource("ShaderMaterial_jv0js")
+material = ExtResource("14_aq0jv")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
