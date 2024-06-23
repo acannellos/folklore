@@ -151,6 +151,13 @@ func generate_forest(player: Entity) -> MapData:
 	var center := map_rect.get_center()
 	var center_floors := Rect2i(center.x - 10, center.y - 10, 20, 20)
 	
+	for y in map_height:
+		for x in map_width:
+			if randf() < 0.95:
+				pass
+			else:
+				_create_tree(forest, x, y)
+	
 	for _try_room in max_rooms:
 		var room_width: int = _rng.randi_range(room_min_size, room_max_size)
 		var room_height: int = _rng.randi_range(room_min_size, room_max_size)
@@ -184,12 +191,12 @@ func generate_forest(player: Entity) -> MapData:
 	
 	_create_floors(forest, center_floors)
 	
-	for y in map_height:
-		for x in map_width:
-			if randf() < 0.95:
-				pass
-			else:
-				_create_tree(forest, x, y)
+	#for y in map_height:
+		#for x in map_width:
+			#if randf() < 0.98:
+				#pass
+			#else:
+				#_create_tree(forest, x, y)
 	
 	_path_vertical(forest, center.x + 1, center.y, center.y - 15)
 	

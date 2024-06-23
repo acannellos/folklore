@@ -22,10 +22,29 @@ func _ready() -> void:
 	Events.player_died.connect(game_over)
 	
 	MessageLog.send_message.bind(
-		"Welcome, Druid, to yet another forest",
+		"Welcome, Druid, to yet another forest..",
 		GameColors.WELCOME_TEXT
 	).call_deferred()
-#
+
+func _unhandled_input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed("torch_1"):
+		map.fov_radius = 4
+		map.update_fov(player.grid_position)
+		MessageLog.send_message("torch 1 equipped", GameColors.INVALID)
+	if Input.is_action_just_pressed("torch_2"):
+		map.fov_radius = 8
+		map.update_fov(player.grid_position)
+		MessageLog.send_message("torch 2 equipped", GameColors.INVALID)
+	if Input.is_action_just_pressed("torch_3"):
+		map.fov_radius = 12
+		map.update_fov(player.grid_position)
+		MessageLog.send_message("torch 3 equipped", GameColors.INVALID)
+	if Input.is_action_just_pressed("torch_4"):
+		map.fov_radius = 24
+		map.update_fov(player.grid_position)
+		MessageLog.send_message("torch 4 equipped", GameColors.INVALID)
+
+
 #func _physics_process(_delta: float) -> void:
 	#var action: Action = input_handler.get_action(player)
 	#if action:
