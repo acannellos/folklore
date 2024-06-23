@@ -25,6 +25,8 @@ func _ready() -> void:
 		"Welcome, Druid, to yet another forest..",
 		GameColors.base2
 	).call_deferred()
+	
+	#Audio.play("assets/audio/winds_trim.wav")
 
 func _unhandled_input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("torch_1"):
