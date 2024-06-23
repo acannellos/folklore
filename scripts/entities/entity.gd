@@ -67,3 +67,6 @@ func is_alive() -> bool:
 
 func is_player() -> bool:
 	return _entity_data.ai_type == Enums.AIType.PLAYER
+
+func heal_player(amount: int) -> void:
+	fighter_component.heal(amount)

@@ -12,11 +12,19 @@ const directions = {
 	"down_right": Vector2i.DOWN + Vector2i.RIGHT,
 }
 
+var death_flag: bool = false
+
+func _ready() -> void:
+	Events.player_died.connect(_on_player_died)
+
+func _on_player_died() -> void:
+	death_flag = true
+
 func get_action(player: Entity) -> Action:
 	var action: Action = null
 	
 	for direction in directions:
-		if Input.is_action_just_pressed(direction):
+		if Input.is_action_just_pressed(direction) and not death_flag:
 			var offset: Vector2i = directions[direction]
 			action = BumpAction.new(player, offset.x, offset.y)
 	
